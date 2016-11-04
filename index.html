@@ -3,6 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Chez Earth</title>
+        <script data-main="js/main" src="js/require.js"></script>
         <style type="text/css">
             body {
                 margin: 0;
@@ -15,44 +16,5 @@
         </style>
     </head>
     <body>
-        <script src="js/three.min.js"></script>
-        <script>
-            var scene = new THREE.Scene();
-            var camera = new THREE.PerspectiveCamera(
-                75, window.innerWidth / window.innerHeight, 0.1, 10);
-            var renderer = new THREE.WebGLRenderer();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            document.body.appendChild(renderer.domElement);
-
-            var color = THREE.ImageUtils.loadTexture('world.jpg');
-            var elevation = THREE.ImageUtils.loadTexture('elevation.png');
-            var specular = THREE.ImageUtils.loadTexture('specular.png');
-            var material = new THREE.MeshPhongMaterial(
-                {map: color,
-                 bumpMap: elevation, bumpScale: 0.02,
-                 specularMap: specular, shininess: 50});
-
-            var geometry = new THREE.SphereGeometry(1, 40, 30);
-            var globe = new THREE.Mesh(geometry, material);
-            scene.add(globe);
-            var light = new THREE.DirectionalLight(0xffffff, 1);
-            light.position.set(2, 1, 1).normalize();
-            scene.add(light);
-            camera.position.y = 1.6;
-            camera.position.z = 1.6;
-            camera.lookAt(scene.position);
-
-            var previous_time = Date.now();
-
-            function render() {
-                requestAnimationFrame(render);
-                var time = Date.now();
-                var delta = (time - previous_time) / 3000;
-                globe.rotation.y += delta;
-                previous_time = time;
-                renderer.render(scene, camera);
-            }
-            render();
-        </script>
     </body>
 </html>
